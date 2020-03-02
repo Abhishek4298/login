@@ -18,32 +18,36 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
-  new LocalStrategy(async function(username, password, done) {
-    console.log("Hello try");
-    admins
-      .findOne({
-        name: username,
-        password: password
-      })
-      .then(function(admin) {
+  new LocalStrategy( async function(username, password, done) {
+    
+      console.log("Hello try");
+      
+      admins.findOne({
+        where : {
+          name: username,
+          password:password
+        }
+      }).then(function (admin){
         if (admin) {
           console.log("Successfull login");
-          console.log("123", admin, "123");
           return done(null, admin);
-        } else {
+        }
+        else {
           console.log("User is not valid");
           return done(null, false);
         }
-      });
+      })
+    
+    
   })
-);
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-
-app.use(router);
-app.listen(5000, () => console.log("server is listening on 5000"));
+  );
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  app.use(router);
+  app.listen(5000, () => console.log("server is listening on 5000"));
