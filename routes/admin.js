@@ -13,7 +13,7 @@ router.post("/login",passport.authenticate('local', { failureRedirect: '/login' 
     return res.redirect("/dashboard");
   }catch(err){
     return res.status(500).json({
-      message: 'jane bhai'
+      message: 'not valid'
     })
   }
 });
